@@ -3,8 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>Doclist</title>
+
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+
 </head>
 <body>
-    <h1>Doclist Test</h1>
+
+<h1>Welcome to your to-do list </h1>
+
+<div id="collections">
+    {% for collection in collections %}
+    <h2>{{ collection.name }}</h2>
+    {% endfor %}
+</div>
+
+
+<form method="post" action="{% url 'add-collection' %}">
+    {% csrf_token %}
+
+    <input type="text" name="collection-name">
+    <button type="submit">Ajouter une catégorie</button>
+
+</form>
+
+<form method="post">
+{% csrf_token %}
+    <input type="text" name="task-description">
+    <button hx-post="{% url 'add-task' %}"
+            hx-target="#tasks"
+            hx-swap="beforeend"
+            type="submit">Ajouter une tâche</button>
+</form>
+
+<div id="tasks">
+
+</div>
+
 </body>
 </html>
